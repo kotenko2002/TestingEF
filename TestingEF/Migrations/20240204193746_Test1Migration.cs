@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TestingEF.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Test1Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,6 +65,32 @@ namespace TestingEF.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WorkDays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Started = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Ended = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CinemaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkDays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkDays_Cinemas_CinemaId",
+                        column: x => x.CinemaId,
+                        principalTable: "Cinemas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_WorkDays_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cinemas_CompanyId",
                 table: "Cinemas",
@@ -73,11 +100,24 @@ namespace TestingEF.Migrations
                 name: "IX_Users_CompanyId",
                 table: "Users",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkDays_CinemaId",
+                table: "WorkDays",
+                column: "CinemaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkDays_UserId",
+                table: "WorkDays",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "WorkDays");
+
             migrationBuilder.DropTable(
                 name: "Cinemas");
 

@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using TestingEF.DAL;
+using TestingEF.DAL.Uow;
 
 namespace TestingEF
 {
@@ -12,6 +13,7 @@ namespace TestingEF
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

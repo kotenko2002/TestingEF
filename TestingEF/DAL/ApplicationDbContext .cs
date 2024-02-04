@@ -8,7 +8,7 @@ namespace TestingEF.DAL
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<User> Users { get; set; }
-        //public DbSet<WorkDay> WorkDays { get; set; }
+        public DbSet<WorkDay> WorkDays { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt)
         {
@@ -18,24 +18,28 @@ namespace TestingEF.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cinema>()
-               .HasOne(c => c.Company)
-               .WithMany(co => co.Cinemas)
-               .HasForeignKey(c => c.CompanyId);
+                .HasOne(c => c.Company)
+                .WithMany(co => co.Cinemas)
+                .HasForeignKey(c => c.CompanyId)
+                .OnDelete(DeleteBehavior.NoAction); // or .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Company)
                 .WithMany(co => co.Users)
-                .HasForeignKey(u => u.CompanyId);
+                .HasForeignKey(u => u.CompanyId)
+                .OnDelete(DeleteBehavior.NoAction); // or .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<Cinema>()
-            //    .HasMany(c => c.WorkDays)
-            //    .WithOne(wd => wd.Cinema)
-            //    .HasForeignKey(wd => wd.CinemaId);
+            modelBuilder.Entity<WorkDay>()
+                .HasOne(wd => wd.Cinema)
+                .WithMany(c => c.WorkDays)
+                .HasForeignKey(wd => wd.CinemaId)
+                .OnDelete(DeleteBehavior.NoAction); // or .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<User>()
-            //    .HasMany(u => u.WorkDays)
-            //    .WithOne(wd => wd.User)
-            //    .HasForeignKey(wd => wd.UserId);
+            modelBuilder.Entity<WorkDay>()
+                .HasOne(wd => wd.User)
+                .WithMany(u => u.WorkDays)
+                .HasForeignKey(wd => wd.UserId)
+                .OnDelete(DeleteBehavior.NoAction); // or .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

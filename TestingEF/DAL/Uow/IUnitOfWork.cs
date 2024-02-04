@@ -10,7 +10,7 @@ namespace TestingEF.DAL.Uow
         ICinemaRepository CinemaRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         IUserRepository UserRepository { get; }
-        //IWorkDayRepository WorkDayRepository { get; }
+        IWorkDayRepository WorkDayRepository { get; }
 
         Task CompleteAsync();
     }
