@@ -1,4 +1,5 @@
-﻿using TestingEF.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TestingEF.DAL.Entities;
 using TestingEF.DAL.Repositories.Base;
 
 namespace TestingEF.DAL.Repositories.Users
@@ -7,6 +8,13 @@ namespace TestingEF.DAL.Repositories.Users
     {
         public UserRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<User> FindFullAsync(int id)
+        {
+            return await Sourse
+                .Include(x => x.WorkDays)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -5,5 +5,6 @@ namespace TestingEF.DAL.Repositories.Users
 {
     public interface IUserRepository : IBaseRepository<User>
     {
+        Task<User> FindFullAsync(int id);
     }
 }

@@ -48,8 +48,17 @@ namespace TestingEF.Controllers
         }
 
 
-        [HttpDelete]
-        public void Remove()
+        [HttpDelete("user/{id}")]
+        public async Task RemoveUser(int id)
+        {
+            var user = await _uow.UserRepository.FindFullAsync(id);
+            await _uow.WorkDayRepository.RemoveRangeAsync(user.WorkDays);
+            await _uow.UserRepository.RemoveAsync(user);
+            await _uow.CompleteAsync();
+        }
+
+        [HttpDelete("cinema")]
+        public void RemoveCinema()
         {
 
         }
