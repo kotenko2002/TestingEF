@@ -12,7 +12,7 @@ namespace TestingEF.DAL.Uow
         public ICinemaRepository CinemaRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public IUserRepository UserRepository { get; }
-        public IWorkDayRepository WorkDayRepository { get; }
+        //public IWorkDayRepository WorkDayRepository { get; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -21,7 +21,7 @@ namespace TestingEF.DAL.Uow
             CinemaRepository = new CinemaRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
             UserRepository = new UserRepository(_context);
-            WorkDayRepository = new WorkDayRepository(_context);
+            //WorkDayRepository = new WorkDayRepository(_context);
         }
 
         public async Task CompleteAsync()
